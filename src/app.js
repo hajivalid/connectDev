@@ -7,7 +7,7 @@ app.use('/', (req, res)=>{
 })
 
 app.use('/test', (req, res)=>{
-    res.send('Hello from the Server!!');
+    res.send('Hello from the test Server!!');
 })
 
 app.listen(9993, ()=>{
