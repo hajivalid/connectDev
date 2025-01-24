@@ -20,6 +20,17 @@ app.post('/user', (req, res) => {
 app.delete('/user', (req, res) => {
     res.send('successfully deleted user data in DB');
 })
+app.use(
+    '/admin', 
+    (req, res, next) => {
+        console.log('1st Admin console printed')
+        next()
+    },
+    (req, res, next) => {
+        console.log('2nd Admin console printed')
+        res.send('2nd Response printed')
+    }
+)
 
 app.listen(9993, ()=>{
     console.log('Server is successfully listening on port 9993...');
