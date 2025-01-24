@@ -1,50 +1,25 @@
-const express = require('express');
-const {adminAuth, userAuth} = require('./middlewares/auth')
+const express = require("express");
+const { adminAuth, userAuth } = require("./middlewares/auth");
 
 const app = express();
 
+app.get("/user", (req, res) => {
+  try {
+    // get userdat with fetch
+    throw new Error("userdata not getting");
+    res.send({ firstName: "Ehan", lastName: "Shami" });
+  } catch (err) {
+    res.status(500).send("Something went wrong on user data!!!");
+  }
+});
 
-//'/user/:userId'  --req.params
-//'/user/userId=101' -- req.query
-//'/user/abc' --normal
-//'/user/ab?c'  --b optional
-//'/user/ab+c'  --bbbbbbb... works fine
-//'/user/ab*cd'  -- anything between ab12345cd
+//wild card errors Always write on end
+app.use("/", (err, req, res, next) => {
+  if (err) {
+    res.status(500).send("Something went wrong!!!");
+  }
+});
 
-app.use('/user', userAuth, (req, res, next) => {
-    console.log('User authentication');
-    next();
-})
-
-app.get('/user/1', (req, res) => {
-    //console.log(req.query);
-    res.send({firstName:"Ehan", lastName:"Shami"});
-})
-app.post('/user/2', (req, res) => {
-    res.send('successfully saved user data in DB');
-})
-
-app.delete('/user/3', (req, res) => {
-    res.send('successfully deleted user data in DB');
-})
-
-app.use(
-    '/admin',
-    adminAuth, 
-    (req, res, next) => {
-        console.log('1st Admin console printed')
-        next();
-    },
-    (req, res, next) => {
-        console.log('2nd Admin console printed')
-        //res.send('2nd Response printed')
-        next();
-    }
-)
-app.get('/admin/user', (req, res) => {
-    res.send('3rd Response printed')
-})
-
-app.listen(9993, ()=>{
-    console.log('Server is successfully listening on port 9993...');
-})
+app.listen(9993, () => {
+  console.log("Server is successfully listening on port 9993...");
+});
