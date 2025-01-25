@@ -46,6 +46,36 @@ app.get('/feed', async (req, res) => {
     }
 })
 
+// delete user by userId
+app.delete('/user', async (req, res) => {
+    const userId = req.body.userId;
+    try{
+        //const userData = await User.findByIdAndDelete({_id:userId})
+        const userData = await User.findByIdAndDelete(userId)
+        if(!userData){
+            res.status(404).send("UserId not found !!")
+        }else{
+            res.send("User successfully deleted !!")
+        }
+    }catch(err){
+        res.status(400).send("Error while fetching user:" + err.message);
+    }
+}) 
+
+// update user by userId
+app.patch('/user', async(req, res) => {
+    try{
+        const userId = req.body.userId;
+        const userData = req.body;
+        //const updateduser = await User.findByIdAndUpdate({_id:userId, userData);
+        const updateduser = await User.findByIdAndUpdate(userId, userData, ["after"]);
+        console.log(updateduser);
+        res.send("User successfully updated !!")
+    }catch(err){
+        res.status(400).send("Error while fetching user:" + err.message);
+    }
+})
+
 connectDB()
   .then(() => {
     console.log("successfully connected with cluster !!");
