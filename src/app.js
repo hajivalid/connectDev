@@ -17,6 +17,35 @@ app.post('/signup', async(req, res) => {
     
 })
 
+// get user by emailId
+app.get('/user', async (req, res) => {
+    try{
+        const userData = await User.find({emailId: "aahna@gmail.com"})
+        if(userData.length === 0){
+            return res.status(404).send("User not found !!")
+        }else{
+            return res.send(userData)
+        }
+    }catch(err){
+        res.status(400).send("Error while fetching user:" + err.message);
+    }
+    
+})
+
+// get all users
+app.get('/feed', async (req, res) => {
+    try{
+        const users = await User.find()
+        if(users.length === 0){
+            return res.status(404).send("Users not found !!")
+        }else{
+            return res.send(users)
+        }
+    }catch(err){
+        res.status(400).send("Error while fetching user:" + err.message);
+    }
+})
+
 connectDB()
   .then(() => {
     console.log("successfully connected with cluster !!");
